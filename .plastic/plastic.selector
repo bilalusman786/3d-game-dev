@@ -1,4 +1,3 @@
 repository "3d-game-dev/3d-game-dev@18968428906099@cloud"
   path "/"
-    br "/main"
-    co "/main"
+    smartbranch "/main"
