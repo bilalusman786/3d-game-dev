@@ -20,7 +20,6 @@ An endless runner game developed in Unity where the player controls **Timmy**, n
 | --- | --- |
 | **Move Left** | Left Arrow / A |
 | **Move Right**| Right Arrow / D |
-| **Pause**      | Esc |
 
 ## 📁 Project Structure & Scripts
 Here are the core C# scripts driving the game mechanics:
