@@ -1,85 +1,92 @@
-# 🏃 Timmy's Run
-
-A fast-paced, high-performance 3D endless runner built in Unity. Dodge obstacles, collect coins, and push your reflexes to the limit in an ever-accelerating procedurally generated gauntlet.
-
-   _____ _                                    _       _____             
-  |_   _(_)                                  's      |  __ \            
-    | |  _ _ __ ___  _ __ ___  _   _ ___      _ __   | |__) |   _ _ __  
-    | | | | '_ ` _ \| '_ ` _ \| | | / __|    | '_ \  |  _  / | | | '_ \ 
-    | | | | | | | | | | | | | | |_| \__ \    | | | | | | \ \ |_| | | | |
-    |_| |_|_| |_| |_|_| |_| |_|\__, |___/    |_| |_| |_|  \_\__,_|_| |_|
-                                __/ |                                   
-                               |___/                                    
-
-<div align="center">
-
-[![Engine - Unity 3D](https://img.shields.io/badge/Engine-Unity%203D-000000?style=for-the-badge&logo=unity&logoColor=white)](https://unity.com/)
-[![Language - C#](https://img.shields.io/badge/Language-C%23-239120?style=for-the-badge&logo=csharp&logoColor=white)](https://learn.microsoft.com/en-us/dotnet/csharp/)
-[![IDE - Visual Studio](https://img.shields.io/badge/IDE-Visual%20Studio-5C2D91?style=for-the-badge&logo=visualstudio&logoColor=white)](https://visualstudio.microsoft.com/)
-[![License - MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
-
-**Dodge. Collect. Survive. How far can Timmy go?**
-
-[Explore Documentation](docs/) · [Report Bug](https://github.com/yourusername/timmys-run/issues) · [Request Feature](https://github.com/yourusername/timmys-run/issues)
-
-</div>
+# Endless Vector: Infinite Runner Engine
+### A High-Performance, Production-Ready 3D/2D Endless Runner Framework for Unity 2022.3 LTS+ and C#
 
 ---
 
-## 📖 Overview
+## 1. Executive Summary & Project Vision
 
-**Timmy's Run** is an immersive, high-octane 3D endless runner designed to test player reflexes through a dynamically generated world. Players guide Timmy across three structural lanes, executing split-second maneuvers to bypass hazardous obstacles and capture valuable coins. As distance increases, so does the speed—demanding perfect precision. The path never ends, but one single wrong move spells game over.
+**Endless Vector** is a modular, component-based endless runner framework built inside the Unity Engine using C#. Designed with scalability, optimal mobile/desktop performance, and clean code architecture in mind, this project provides a robust foundation for any lane-based or continuous-scrolling runner game (e.g., *Subway Surfers*, *Temple Run* style mechanics). 
 
-### Key Gameplay Loop
-1. **Navigate:** Swap seamlessly between 3 distinct lanes (Left, Center, Right) using snappy controls.
-2. **Collect:** Gather coins structurally positioned along procedural paths to maximize high scores.
-3. **Survive:** Dodge dynamically spawning hazards. Game speed scales asymptotically over time to naturally escalate difficulty.
-
----
-
-## ✨ Features
-
-| Feature | Category | Description | Technical Implementation |
-| :--- | :--- | :--- | :--- |
-| 🔀 **Dynamic Lane Movement** | Mechanics | Fluid left/right shifting with snappy, predictable handling. | Framerate-independent `Mathf.MoveTowards` / `Vector3.Lerp` interpolation. |
-| 🪙 **Coin & Score System** | Systems | Real-time score calculation combining collected coins and distance traveled. | Decoupled event-driven architecture using C# actions. |
-| ♾️ **Procedural Generation** | Architecture | Infinite, random road sections spawned ahead of the player while recycling passed segments. | Dedicated Object Pooler to prevent runtime garbage collection spikes. |
-| 🎨 **Clean UI/UX Layout** | Interface | Minimalistic HUD, highly functional main menu, and contextual Game Over dashboard. | Designed with Unity UI (uGUI), anchored dynamically for multi-resolution scaling. |
+### Core Architectural Pillars
+* **Zero Garbage Collection (GC) Allocations during Gameplay:** Utilizes extensive object pooling for tracks, obstacles, coins, and visual effects to prevent runtime frame stuttering.
+* **Decoupled State Architecture:** Uses a state-driven `GameManager` combined with C# Actions/Events to manage transitions between the Main Menu, Active Gameplay, Paused states, and the Game Over screens without hard dependencies.
+* **Smooth Interpolation Physics:** Player movement is managed via mathematical interpolation ($Lerp$) and frame-rate independent physics updating to guarantee responsive control schemes across both 60Hz and 120Hz displays.
 
 ---
 
-## 🛠️ Tech Stack & Architecture
+## 2. Key Features
 
-* **Core Engine:** Unity 2021.3 LTS (Long Term Support)
-* **Scripting Language:** C# (Object-Oriented, Type-Safe Architecture)
-* **IDE Development:** Visual Studio / VS Code (Roslyn Analyzers enforced)
-* **UI Prototyping & Layout Modeling:** HTML / Wolfram API data formatting schemas
-
-### Game Lifecycle Architecture Block Diagram
-[Main Menu Scene] ──(User Interaction)──> [Load Game Scene]
-│
-▼
-┌─────────────────┐
-│  Initialize:    │
-│  - GameManager  │
-│  - Object Pools │
-└────────┬────────┘
-│
-▼
-┌─────────────────┐ <───┐
-│   Core Loop     │     │
-│ - Read Input    │     │
-│ - Move Player   │     │
-│ - Check Collide │     │
-└────────┬────────┘     │
-│              │ (Per Frame)
-(Is Collision?)        │
-├── No ──────────────┘
-└── Yes ──> [Trigger Game Over UI]
-
+* **Advanced Lane-Switching Controller:** Precise 3-lane movement tracking (Left, Center, Right) with integrated jump, slide, and collision-buffer mechanics.
+* **Dynamic, Infinite Procedural World Generation:** Scriptable Object-driven tile system that dynamically spawns, places, and recycles environment chunks ahead of the player while cleaning up trailing chunks.
+* **Stateful UI Manager:** Clean separation between Main Menu controls, real-time HUD (Score, High Score, Multipliers), and Game Over panels.
+* **Persistent Storage Data Loop:** Native JSON-based serialization framework with encryption hooks to securely save high scores, collected currencies, and unlocked character IDs.
+* **Extensible Obstacle & Power-up Matrix:** Base abstract classes allowing for rapid deployment of custom obstacles (static, moving, breaking) and power-ups (Coin Magnets, Shields, Score Multipliers).
 
 ---
 
-## 📁 Project Structure
+## 3. Tech Stack & System Requirements
 
-Below is a breakdown of the production-ready directory structure for the core codebase:
+| Requirement | Target Specification | Notes |
+| :--- | :--- | :--- |
+| **Unity Editor version** | `2022.3.x LTS` or higher | Tested up to `2023.2` |
+| **Language** | C# 9.0+ | Utilizes modern pattern matching & property expressions |
+| **Render Pipeline** | Universal Render Pipeline (URP) | Optimized for low-draw-call batching |
+| **Input System** | Unity Input System Package v1.7.0+ | Supports Keyboard, Mouse, and Touch Swipe gestures |
+| **Target Architecture** | Mobile (iOS/Android), PC (WebGL/Standalone) | Fully cross-platform input abstraction layer |
+
+---
+
+## 4. Project Directory Blueprint
+
+```text
+Assets/
+├── _Project/
+│   ├── Animations/
+│   │   ├── Characters/
+│   │   │   ├── Player_Animator.controller
+│   │   │   ├── Run.anim
+│   │   │   ├── Jump.anim
+│   │   │   └── Slide.anim
+│   │   └── UI/
+│   │       ├── MainMenu_FadeIn.anim
+│   │       └── GameOver_Popup.anim
+│   ├── Audio/
+│   │   ├── Music/
+│   │   │   └── CyberRunner_Theme.wav
+│   │   └── SFX/
+│   │       ├── Coin_Collect.wav
+│   │       ├── Obstacle_Hit.wav
+│   │       └── Swipe_Move.wav
+│   ├── Prefabs/
+│   │   ├── Environment/
+│   │   │   ├── Track_Start.prefab
+│   │   │   ├── Track_Straight_01.prefab
+│   │   │   ├── Track_Straight_02.prefab
+│   │   │   └── Track_Obstacle_Bridge.prefab
+│   │   ├── Player/
+│   │   │   └── Player_Graphic.prefab
+│   │   └── UI/
+│   │       ├── HUD_Canvas.prefab
+│   │       └── MainMenu_Canvas.prefab
+│   ├── Scripts/
+│   │   ├── Core/
+│   │   │   ├── GameManager.cs
+│   │   │   ├── SaveSystem.cs
+│   │   │   └── SoundManager.cs
+│   │   ├── Environment/
+│   │   │   ├── TrackSegment.cs
+│   │   │   └── TrackSpawner.cs
+│   │   ├── Objects/
+│   │   │   ├── CollectibleItem.cs
+│   │   │   └── ObstacleTrigger.cs
+│   │   ├── Player/
+│   │   │   ├── PlayerController.cs
+│   │   │   └── PlayerAnimationController.cs
+│   │   └── UI/
+│   │       ├── MainMenuController.cs
+│   │       └── UIGameplayController.cs
+│   ├── Settings/
+│   │   ├── ForwardRenderer.asset
+│   │   └── UniversalRPAsset.asset
+│   └── Shaders/
+│       └── CurvedWorldShader.shadergraph
